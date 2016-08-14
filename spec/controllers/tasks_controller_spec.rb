@@ -26,4 +26,16 @@ RSpec.describe TasksController, type: :controller do
       expect(task.done).to eq(true)
     end
   end
+
+  describe 'tasks#create' do
+    it 'should allow new tasks to be created' do
+      post :create, task: {title: 'Get this test to pass', done: true}
+      expect(response).to have_http_status(:success)
+      response_value = ActiveSupport::JSON.decode(@response.body)
+      expect(response_value['title']).to eq('Get this test to pass')
+      expect(response_value['done']).to eq(true)
+      expect(Task.last.title).to eq('Get this test to pass')
+      expect(Task.last.done).to eq(true)
+    end
+  end
 end
