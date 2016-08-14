@@ -1,6 +1,9 @@
 <section class="todoapp">
   <header class="header">
     <h1>To-dos</h1>
+    <form id="new-form">
+      <input type="text" class="new-todo">
+    </form>
   </header>
 
   <section class="main">
@@ -12,6 +15,13 @@
 
 <script>
   $(function() {
+    $('#new-form').submit(function(e) {
+      e.preventDefault();
+      console.log("default prevented.");
+      var todo = $(this).children().val();
+      console.log(todo);
+    });
+
     // takes in JS representation of a task
     // and produces an HTML representation
     // using <li> tags
