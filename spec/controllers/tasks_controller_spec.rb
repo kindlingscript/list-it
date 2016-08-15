@@ -38,4 +38,14 @@ RSpec.describe TasksController, type: :controller do
       expect(Task.last.done).to eq(true)
     end
   end
+
+  describe 'tasks#destroy' do
+    it 'should allow tasks to be deleted' do
+      task = FactoryGirl.create(:task, title: 'Delete this task', done: false)
+      delete :destroy, id: task.id
+      expect(response).to redirect_to root_path
+      task = Task.find_by_id(task.id)
+      expect(task).to eq nil
+    end
+  end
 end
