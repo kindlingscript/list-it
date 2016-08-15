@@ -15,22 +15,6 @@
 
 <script>
   $(function() {
-    $('#new-form').submit(function(e) {
-      e.preventDefault();
-      console.log("default prevented.");
-      var todo = $(this).children().val();
-      console.log(todo);
-      var payload = {
-        task: {
-          title: todo
-        }
-      };
-      console.log(payload);
-      $.post('/tasks', payload).success(function(data) {
-        console.log('Successfull HTPP Request');
-      });
-    });
-
     // takes in JS representation of a task
     // and produces an HTML representation
     // using <li> tags
@@ -69,6 +53,23 @@
       ulTodos.html(htmlString);
 
       $('.toggle').change(toggleTask);
+    });
+
+    $('#new-form').submit(function(e) {
+      e.preventDefault();
+      var todo = $(this).children().val();
+      var payload = {
+        task: {
+          title: todo
+        }
+      };
+
+      $.post('/tasks', payload).success(function(data) {
+        var htmlString = taskHTML(data);
+        var ulTodos = $('.todo-list');
+        ulTodos.append(htmlString);
+        $('.toggle').click(toggleTask);
+      });
     });
   });
 </script>
